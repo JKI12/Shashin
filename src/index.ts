@@ -23,7 +23,9 @@ const timingMiddleware = async (ctx: Context, next: Next) => {
     const end = new Date().valueOf();
     const timing = (end - start) / 1000;
 
-    logger.info(`Screenshot: ${url} | Timing: ${timing} seconds`);
+    logger.info(`Screenshot: ${url} | Timing: ${timing} seconds`, {
+      timing
+    });
   }
 };
 
@@ -38,6 +40,8 @@ const errorMiddleware = async (ctx: Context, next: Next) => {
     }
   }
 }
+
+router.get('/', ctx => ctx.body = { ping: true });
 
 router.get('/screenshot', timingMiddleware, errorMiddleware, async ctx => {
   const { url } = ctx.request.query;
