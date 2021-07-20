@@ -7,7 +7,7 @@ const screenshot = async (url: string): Promise<Buffer> => {
       width: 1280,
     },
     executablePath: process.env.CHROMIUM_PATH,
-    args: ['--no-sandbox']
+    args: ['--no-sandbox', '--disable-dev-shm-usage', '--single-process', '--no-zygote']
   });
   const page = await browser.newPage();
   await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36');
@@ -20,7 +20,8 @@ const screenshot = async (url: string): Promise<Buffer> => {
     encoding: 'binary'
   }) as Buffer;
 
-  await browser.close()
+  await browser.close();
+
   return image;
 }
 
